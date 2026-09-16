@@ -1,517 +1,765 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>NODEFIX | Lab Equipment Support</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>NODEFIX — AI Laboratory Support</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
+
 
 <body>
 
-<header class="navbar">
+    <div class="background-grid"></div>
 
-    <div class="logo">
-        <span class="logo-mark">N</span>
-        <span>NODEFIX</span>
-    </div>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#troubleshoot">Troubleshoot</a>
-        <a href="#how-it-works">How it works</a>
-    </nav>
-
-    <button class="nav-button">
-        Lab Support
-    </button>
-
-</header>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
 
 
-<main>
+    <!-- =================================================
+         NAVBAR
+    ================================================== -->
 
-    <!-- HERO -->
+    <header class="navbar">
 
-    <section class="hero" id="home">
+        <a href="/" class="brand">
 
-        <div class="hero-content">
-
-            <div class="eyebrow">
-                <span class="status-dot"></span>
-                AI-ASSISTED LAB SUPPORT
+            <div class="brand-symbol">
+                N
             </div>
 
-            <h1>
-                Something not working?
-                <span>Let's figure it out.</span>
-            </h1>
+            <div>
 
-            <p class="hero-description">
-                NODEFIX helps students troubleshoot laboratory equipment
-                using AI grounded in trusted manuals, SOPs and technical
-                documentation.
-            </p>
-
-            <div class="hero-buttons">
-
-                <a href="#troubleshoot" class="primary-button">
-                    Start Troubleshooting
-                    <span>→</span>
-                </a>
-
-                <a href="#how-it-works" class="secondary-button">
-                    See how it works
-                </a>
-
-            </div>
-
-            <div class="hero-trust">
-
-                <div>
-                    <strong>AI</strong>
-                    <span>Assisted</span>
+                <div class="brand-name">
+                    NODEFIX
                 </div>
 
-                <div>
-                    <strong>RAG</strong>
-                    <span>Grounded</span>
-                </div>
-
-                <div>
-                    <strong>24/7</strong>
-                    <span>Accessible</span>
+                <div class="brand-caption">
+                    AI LAB SUPPORT
                 </div>
 
             </div>
+
+        </a>
+
+
+        <nav>
+
+            <a href="#chat">
+                Troubleshoot
+            </a>
+
+            <a href="#how">
+                How it works
+            </a>
+
+        </nav>
+
+
+        <div class="nav-status">
+
+            <span></span>
+
+            SYSTEM ONLINE
 
         </div>
 
+    </header>
 
-        <!-- TECHNICAL VISUAL -->
 
-        <div class="hero-visual">
 
-            <div class="visual-glow"></div>
+    <main>
 
-            <div class="floating-card card-one">
-                <span>ESP32</span>
-                <small>Microcontroller</small>
-            </div>
+        <!-- =================================================
+             MAIN AI WORKSPACE
+        ================================================== -->
 
-            <div class="floating-card card-two">
-                <span>01</span>
-                <small>Analyze</small>
-            </div>
+        <section
+            class="hero"
+            id="chat"
+        >
 
-            <div class="floating-card card-three">
-                <span>AI</span>
-                <small>Diagnosis</small>
-            </div>
 
-            <div class="device-panel">
+            <!-- =================================================
+                 LEFT HARDWARE
+            ================================================== -->
 
-                <div class="device-header">
-                    <span>NODEFIX LAB</span>
-                    <span class="live-dot"></span>
+            <aside class="hardware-side left-hardware">
+
+                <div class="technical-label">
+                    LAB / 01
                 </div>
 
-                <div class="circuit">
 
-                    <div class="chip">
+                <div class="hardware-card esp-card">
+
+                    <img
+                        src="{{ url_for('static', filename='images/esp32.png') }}"
+                        alt="ESP32 board"
+                    >
+
+                    <span>
                         ESP32
-                    </div>
-
-                    <div class="connection-line line-one"></div>
-                    <div class="connection-line line-two"></div>
-                    <div class="connection-line line-three"></div>
-
-                    <div class="component sensor">
-                        SENSOR
-                    </div>
-
-                    <div class="component relay">
-                        RELAY
-                    </div>
-
-                    <div class="component led">
-                        LED
-                    </div>
-
-                </div>
-
-                <div class="device-footer">
-
-                    <span>LAB SYSTEM</span>
-
-                    <span class="footer-status">
-                        ● READY
                     </span>
 
+                    <small>
+                        MICROCONTROLLER
+                    </small>
+
                 </div>
 
-            </div>
 
-        </div>
+                <div class="hardware-card sensor-card">
 
-    </section>
+                    <img
+                        src="{{ url_for('static', filename='images/sensor.png') }}"
+                        alt="Sensor"
+                    >
 
+                    <span>
+                        SENSOR
+                    </span>
 
+                    <small>
+                        INPUT DEVICE
+                    </small>
 
-    <!-- TRUST STRIP -->
-
-    <section class="trust-strip">
-
-        <div>
-            <span class="trust-icon">✓</span>
-            Grounded in documentation
-        </div>
-
-        <div>
-            <span class="trust-icon">⌁</span>
-            AI-assisted diagnosis
-        </div>
-
-        <div>
-            <span class="trust-icon">↗</span>
-            Human escalation when needed
-        </div>
-
-    </section>
-
-
-
-    <!-- TROUBLESHOOT -->
-
-    <section class="troubleshoot-section" id="troubleshoot">
-
-        <div class="section-heading">
-
-            <div class="eyebrow">
-                TROUBLESHOOTING
-            </div>
-
-            <h2>
-                Tell us what's happening.
-            </h2>
-
-            <p>
-                Describe the equipment and the problem. NODEFIX will analyze
-                the issue and search relevant technical documentation.
-            </p>
-
-        </div>
-
-
-        <div class="troubleshoot-layout">
-
-            <div class="equipment-sidebar">
-
-                <div class="side-label">
-                    SUPPORTED EQUIPMENT
                 </div>
 
-                <button class="equipment-option active">
-                    <span>ESP32</span>
-                    <span>→</span>
-                </button>
 
-                <button class="equipment-option">
-                    <span>Arduino</span>
-                    <span>→</span>
-                </button>
+                <div class="circuit-lines left-lines">
 
-                <button class="equipment-option">
-                    <span>Relay Module</span>
-                    <span>→</span>
-                </button>
+                    <i></i>
+                    <i></i>
+                    <i></i>
 
-                <button class="equipment-option">
-                    <span>Sensors</span>
-                    <span>→</span>
-                </button>
-
-                <div class="side-note">
-                    More equipment can be added as the system expands.
                 </div>
 
-            </div>
+            </aside>
 
 
-            <div class="problem-card">
 
-                <form id="troubleshootForm">
+            <!-- =================================================
+                 AI CHAT PANEL
+            ================================================== -->
 
-                    <div class="form-section">
-
-                        <label for="equipment">
-                            Equipment
-                        </label>
-
-                        <select id="equipment">
-
-                            <option value="ESP32">
-                                ESP32
-                            </option>
-
-                            <option value="Arduino">
-                                Arduino
-                            </option>
-
-                            <option value="Relay Module">
-                                Relay Module
-                            </option>
-
-                            <option value="Sensor">
-                                Sensor
-                            </option>
-
-                        </select>
-
-                    </div>
+            <section class="ai-panel">
 
 
-                    <div class="form-section">
+                <!-- HEADER -->
 
-                        <label for="problem">
-                            What's going wrong?
-                        </label>
+                <div class="panel-header">
 
-                        <textarea
-                            id="problem"
-                            placeholder="Example: My ESP32 connects to WiFi, but the relay doesn't switch when I send the command..."
-                            required
-                        ></textarea>
+                    <div class="ai-identity">
 
-                        <div class="character-count">
-                            Be as specific as possible.
+                        <div class="ai-orb">
+
+                            <div class="orb-core">
+                                N
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="ai-name">
+                                NODEFIX AI
+                            </div>
+
+                            <div class="ai-state">
+
+                                <span></span>
+
+                                Ready to troubleshoot
+
+                            </div>
+
                         </div>
 
                     </div>
 
 
-                    <div class="form-section">
+                    <div class="knowledge-status">
 
-                        <label>
-                            Equipment photo
-                            <span class="optional">
-                                OPTIONAL
+                        <div class="knowledge-icon">
+                            ◇
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                KNOWLEDGE BASE
+                            </strong>
+
+                            <span>
+                                Local demo
                             </span>
-                        </label>
 
-                        <label class="upload-box">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CHAT -->
+
+                <div
+                    class="chat-area"
+                    id="chatMessages"
+                >
+
+
+                    <!-- WELCOME -->
+
+                    <div class="welcome">
+
+                        <div class="welcome-kicker">
+                            AI LAB TROUBLESHOOTING
+                        </div>
+
+
+                        <h1>
+                            What's happening
+                            with your equipment?
+                        </h1>
+
+
+                        <p>
+                            Describe the problem in your own words.
+                            NODEFIX analyzes the issue and checks
+                            relevant technical documentation before
+                            suggesting troubleshooting steps.
+                        </p>
+
+
+                        <div class="welcome-pills">
+
+                            <span>
+                                Documentation grounded
+                            </span>
+
+                            <span>
+                                Uncertainty aware
+                            </span>
+
+                            <span>
+                                Human escalation
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- QUICK START -->
+
+                    <div class="quick-section">
+
+                        <div class="quick-title">
+                            QUICK START
+                        </div>
+
+
+                        <div class="quick-grid">
+
+
+                            <button
+                                class="quick-card"
+                                type="button"
+                                data-equipment="ESP32"
+                            >
+
+                                <strong>
+                                    ESP32
+                                </strong>
+
+                                <span>
+                                    Microcontroller
+                                </span>
+
+                                <b>
+                                    →
+                                </b>
+
+                            </button>
+
+
+
+                            <button
+                                class="quick-card"
+                                type="button"
+                                data-equipment="Arduino"
+                            >
+
+                                <strong>
+                                    Arduino
+                                </strong>
+
+                                <span>
+                                    Development board
+                                </span>
+
+                                <b>
+                                    →
+                                </b>
+
+                            </button>
+
+
+
+                            <button
+                                class="quick-card"
+                                type="button"
+                                data-equipment="Relay Module"
+                            >
+
+                                <strong>
+                                    Relay
+                                </strong>
+
+                                <span>
+                                    Switching module
+                                </span>
+
+                                <b>
+                                    →
+                                </b>
+
+                            </button>
+
+
+
+                            <button
+                                class="quick-card"
+                                type="button"
+                                data-equipment="Sensor"
+                            >
+
+                                <strong>
+                                    Sensor
+                                </strong>
+
+                                <span>
+                                    Input device
+                                </span>
+
+                                <b>
+                                    →
+                                </b>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     IMAGE PREVIEW + COMPOSER
+                ================================================== -->
+
+                <div
+                    class="image-preview-container"
+                    id="imagePreviewContainer"
+                >
+
+                    <div class="preview-header">
+
+                        <span>
+                            EQUIPMENT PHOTO
+                        </span>
+
+                        <button
+                            type="button"
+                            id="removeImage"
+                            class="remove-image"
+                            aria-label="Remove image"
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+
+                    <img
+                        id="imagePreview"
+                        class="image-preview"
+                        alt="Selected equipment"
+                    >
+
+                </div>
+
+
+
+                <div class="composer">
+
+
+                    <div class="composer-top">
+
+                        <div class="equipment-select">
+
+                            <label for="equipment">
+                                EQUIPMENT
+                            </label>
+
+                            <select id="equipment">
+
+                                <option value="ESP32">
+                                    ESP32
+                                </option>
+
+                                <option value="Arduino">
+                                    Arduino
+                                </option>
+
+                                <option value="Relay Module">
+                                    Relay Module
+                                </option>
+
+                                <option value="Sensor">
+                                    Sensor
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div
+                            class="attachment-name"
+                            id="fileName"
+                        ></div>
+
+                    </div>
+
+
+                    <textarea
+                        id="message"
+                        placeholder="Tell NODEFIX what isn't working..."
+                        rows="3"
+                        maxlength="2000"
+                    ></textarea>
+
+
+                    <div class="composer-bottom">
+
+
+                        <label class="upload-button">
 
                             <input
                                 type="file"
                                 id="photo"
-                                accept="image/*"
+                                accept="image/png,image/jpeg,image/webp"
                             >
 
-                            <div class="upload-content">
+                            <span>
+                                +
+                            </span>
 
-                                <div class="upload-icon">
-                                    +
-                                </div>
-
-                                <div>
-                                    <strong>
-                                        Upload a photo
-                                    </strong>
-
-                                    <p>
-                                        PNG, JPG up to 5MB
-                                    </p>
-                                </div>
-
-                            </div>
+                            Attach photo
 
                         </label>
 
-                    </div>
 
+                        <button
+                            type="button"
+                            class="diagnose-button"
+                            id="sendButton"
+                        >
 
-                    <button
-                        class="analyze-button"
-                        type="submit"
-                    >
-                        Analyze with NODEFIX
-                        <span>→</span>
-                    </button>
+                            Diagnose issue
 
-                </form>
-
-
-                <!-- RESULT -->
-
-                <div
-                    id="result"
-                    class="result-box hidden"
-                >
-
-                    <div class="result-header">
-
-                        <div>
-                            <span class="result-badge">
-                                NODEFIX ANALYSIS
+                            <span>
+                                →
                             </span>
 
-                            <h3 id="resultTitle">
-                                Analysis complete
-                            </h3>
-                        </div>
-
-                        <div class="confidence">
-                            <span>Confidence</span>
-                            <strong id="confidence">
-                                --
-                            </strong>
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        id="resultText"
-                        class="result-text"
-                    ></div>
-
-
-                    <div class="sources">
-
-                        <div class="sources-title">
-                            Retrieved documentation
-                        </div>
-
-                        <div id="sourceList">
-                            -
-                        </div>
+                        </button>
 
                     </div>
 
                 </div>
 
-            </div>
-
-        </div>
-
-    </section>
 
 
+                <!-- SAFETY -->
 
-    <!-- HOW IT WORKS -->
+                <div class="safety-bar">
 
-    <section
-        class="how-section"
-        id="how-it-works"
-    >
+                    <span class="safety-check">
+                        ✓
+                    </span>
 
-        <div class="section-heading centered">
+                    <span>
+                        NODEFIX avoids unsupported conclusions and
+                        escalates uncertain or safety-critical issues.
+                    </span>
 
-            <div class="eyebrow">
-                HOW NODEFIX WORKS
-            </div>
-
-            <h2>
-                From problem to solution.
-            </h2>
-
-        </div>
-
-
-        <div class="steps">
-
-            <div class="step">
-
-                <div class="step-number">
-                    01
                 </div>
 
-                <h3>
-                    Describe
-                </h3>
+            </section>
+
+
+
+            <!-- =================================================
+                 RIGHT HARDWARE
+            ================================================== -->
+
+            <aside class="hardware-side right-hardware">
+
+                <div class="technical-label">
+                    LAB / 02
+                </div>
+
+
+                <div class="hardware-card relay-card">
+
+                    <img
+                        src="{{ url_for('static', filename='images/relay.png') }}"
+                        alt="Relay module"
+                    >
+
+                    <span>
+                        RELAY
+                    </span>
+
+                    <small>
+                        CONTROL MODULE
+                    </small>
+
+                </div>
+
+
+                <div class="status-card">
+
+                    <div class="status-card-heading">
+
+                        <span class="live-dot"></span>
+
+                        SYSTEM STATUS
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <span>
+                            AI ENGINE
+                        </span>
+
+                        <strong>
+                            READY
+                        </strong>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <span>
+                            RETRIEVAL
+                        </span>
+
+                        <strong>
+                            LOCAL
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="circuit-lines right-lines">
+
+                    <i></i>
+                    <i></i>
+                    <i></i>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+
+
+        <!-- =================================================
+             HOW IT WORKS
+        ================================================== -->
+
+        <section
+            class="how-section"
+            id="how"
+        >
+
+            <div class="section-heading">
+
+                <div class="section-number">
+                    01 / WORKFLOW
+                </div>
+
+
+                <h2>
+                    From a broken setup
+                    to a grounded solution.
+                </h2>
+
 
                 <p>
-                    Tell NODEFIX what equipment you are using and
-                    what went wrong.
+                    NODEFIX combines conversational AI with
+                    laboratory knowledge retrieval. When the
+                    system cannot confidently resolve an issue,
+                    it creates a technician ticket instead of
+                    guessing.
                 </p>
 
             </div>
 
 
-            <div class="step-line"></div>
+            <div class="workflow">
 
 
-            <div class="step">
+                <article class="workflow-card">
 
-                <div class="step-number">
-                    02
+                    <span class="workflow-number">
+                        01
+                    </span>
+
+                    <div class="workflow-icon">
+                        +
+                    </div>
+
+                    <h3>
+                        Describe
+                    </h3>
+
+                    <p>
+                        Explain the equipment, symptoms and
+                        optionally attach a photo.
+                    </p>
+
+                </article>
+
+
+                <div class="workflow-connector">
+                    →
                 </div>
 
-                <h3>
-                    Retrieve
-                </h3>
 
-                <p>
-                    Relevant manuals and SOPs are retrieved from
-                    the knowledge base.
-                </p>
+                <article class="workflow-card">
+
+                    <span class="workflow-number">
+                        02
+                    </span>
+
+                    <div class="workflow-icon">
+                        ◇
+                    </div>
+
+                    <h3>
+                        Retrieve
+                    </h3>
+
+                    <p>
+                        NODEFIX finds relevant manuals and
+                        laboratory SOPs.
+                    </p>
+
+                </article>
+
+
+                <div class="workflow-connector">
+                    →
+                </div>
+
+
+                <article class="workflow-card">
+
+                    <span class="workflow-number">
+                        03
+                    </span>
+
+                    <div class="workflow-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Resolve
+                    </h3>
+
+                    <p>
+                        Get grounded guidance or escalate
+                        the issue to a technician.
+                    </p>
+
+                </article>
 
             </div>
 
+        </section>
 
-            <div class="step-line"></div>
+    </main>
 
 
-            <div class="step">
 
-                <div class="step-number">
-                    03
-                </div>
+    <!-- =================================================
+         FOOTER
+    ================================================== -->
 
-                <h3>
-                    Resolve
-                </h3>
+    <footer>
 
-                <p>
-                    NODEFIX provides grounded troubleshooting steps
-                    or escalates the issue when necessary.
-                </p>
+        <div class="footer-inner">
 
+            <div class="footer-brand">
+                NODEFIX
+            </div>
+
+            <div>
+                AI-powered laboratory troubleshooting
+            </div>
+
+            <div>
+                AI-103 PROJECT
             </div>
 
         </div>
 
-    </section>
+    </footer>
 
 
-</main>
-
-
-
-<footer>
-
-    <div class="footer-logo">
-        NODEFIX
-    </div>
-
-    <p>
-        AI-powered laboratory equipment troubleshooting.
-    </p>
-
-</footer>
-
-
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script
+        src="{{ url_for('static', filename='script.js') }}"
+    ></script>
 
 </body>
+
 </html>

@@ -1,132 +1,611 @@
-const form = document.getElementById("troubleshootForm");
+const messageInput =
+    document.getElementById("message");
 
-const resultBox = document.getElementById("result");
-const resultText = document.getElementById("resultText");
-const resultTitle = document.getElementById("resultTitle");
-const confidence = document.getElementById("confidence");
-const sourceList = document.getElementById("sourceList");
+const equipmentSelect =
+    document.getElementById("equipment");
+
+const photoInput =
+    document.getElementById("photo");
+
+const fileName =
+    document.getElementById("fileName");
+
+const sendButton =
+    document.getElementById("sendButton");
+
+const chatMessages =
+    document.getElementById("chatMessages");
+
+const imagePreviewContainer =
+    document.getElementById("imagePreviewContainer");
+
+const imagePreview =
+    document.getElementById("imagePreview");
+
+const removeImageButton =
+    document.getElementById("removeImage");
+
+const quickCards =
+    document.querySelectorAll(".quick-card");
 
 
+// =========================================================
+// QUICK EQUIPMENT SELECTION
+// =========================================================
 
-form.addEventListener("submit", async function (event) {
+quickCards.forEach((card) => {
 
-    event.preventDefault();
+    card.addEventListener("click", () => {
+
+        const equipment =
+            card.dataset.equipment;
+
+        equipmentSelect.value =
+            equipment;
+
+        messageInput.focus();
+
+    });
+
+});
 
 
-    const equipment =
-        document.getElementById("equipment").value;
+// =========================================================
+// IMAGE PREVIEW
+// =========================================================
 
-    const problem =
-        document.getElementById("problem").value.trim();
+photoInput.addEventListener("change", () => {
 
+    if (!photoInput.files.length) {
 
-    if (!problem) {
-
-        alert("Please describe the problem first.");
+        hideImagePreview();
 
         return;
     }
 
 
-    const button =
-        document.querySelector(".analyze-button");
+    const file =
+        photoInput.files[0];
 
 
-    button.disabled = true;
+    if (!file.type.startsWith("image/")) {
 
-    button.innerHTML = `
-        Analyzing...
-        <span>◌</span>
-    `;
+        alert("Please select an image file.");
+
+        hideImagePreview();
+
+        return;
+    }
 
 
-    resultBox.classList.add("hidden");
+    if (file.size > 5 * 1024 * 1024) {
+
+        alert("Image must be smaller than 5 MB.");
+
+        hideImagePreview();
+
+        return;
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload = (event) => {
+
+        imagePreview.src =
+            event.target.result;
+
+        imagePreviewContainer.style.display =
+            "block";
+
+        fileName.textContent =
+            file.name;
+
+    };
+
+
+    reader.onerror = () => {
+
+        alert("Could not read the selected image.");
+
+        hideImagePreview();
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+});
+
+
+removeImageButton.addEventListener(
+    "click",
+    hideImagePreview
+);
+
+
+function hideImagePreview() {
+
+    imagePreview.src = "";
+
+    imagePreviewContainer.style.display =
+        "none";
+
+    photoInput.value = "";
+
+    fileName.textContent = "";
+
+}
+
+
+// =========================================================
+// ENTER TO SEND
+// =========================================================
+
+messageInput.addEventListener("keydown", (event) => {
+
+    if (
+        event.key === "Enter" &&
+        !event.shiftKey
+    ) {
+
+        event.preventDefault();
+
+        sendMessage();
+
+    }
+
+});
+
+
+// =========================================================
+// SEND BUTTON
+// =========================================================
+
+sendButton.addEventListener(
+    "click",
+    sendMessage
+);
+
+
+// =========================================================
+// SEND MESSAGE
+// =========================================================
+
+async function sendMessage() {
+
+    const message =
+        messageInput.value.trim();
+
+    const equipment =
+        equipmentSelect.value;
+
+
+    if (!message) {
+
+        messageInput.focus();
+
+        return;
+    }
+
+
+    if (!equipment) {
+
+        alert("Please select the equipment.");
+
+        return;
+    }
+
+
+    // Prevent double submissions
+    sendButton.disabled = true;
+
+    sendButton.innerHTML =
+        "Analyzing <span>...</span>";
+
+
+    // Show user message
+    addUserMessage(
+        message,
+        equipment
+    );
+
+
+    // Show loading state
+    const loadingMessage =
+        addLoadingMessage();
 
 
     try {
 
-        const response = await fetch("/api/troubleshoot", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                equipment: equipment,
-                problem: problem
-            })
-
-        });
+        const formData =
+            new FormData();
 
 
-        if (!response.ok) {
+        formData.append(
+            "equipment",
+            equipment
+        );
 
-            throw new Error(
-                "Backend request failed."
+
+        formData.append(
+            "message",
+            message
+        );
+
+
+        if (photoInput.files.length) {
+
+            formData.append(
+                "photo",
+                photoInput.files[0]
             );
 
         }
 
 
-        const data = await response.json();
+        const response =
+            await fetch(
+                "/api/chat",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
 
 
-        resultTitle.textContent =
-            data.title || "Analysis complete";
+        const data =
+            await response.json();
 
 
-        resultText.textContent =
-            data.answer || "No answer received.";
+        loadingMessage.remove();
 
 
-        confidence.textContent =
-            data.confidence || "--";
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.error ||
+                "NODEFIX could not process the request."
+            );
+
+        }
 
 
-        sourceList.textContent =
-            data.sources?.join(" • ") || "No sources returned";
-
-
-        resultBox.classList.remove("hidden");
-
-
-        resultBox.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
+        addAssistantMessage(data);
 
 
     } catch (error) {
 
-        console.error(error);
-
-        resultTitle.textContent =
-            "NODEFIX couldn't complete the analysis";
-
-
-        resultText.textContent =
-            "The backend could not process your request. Please check that the Flask server is running.";
+        console.error(
+            "NODEFIX error:",
+            error
+        );
 
 
-        confidence.textContent = "--";
-
-        sourceList.textContent =
-            "Backend unavailable";
+        loadingMessage.remove();
 
 
-        resultBox.classList.remove("hidden");
+        addAssistantMessage({
+
+            answer:
+                "I couldn't process that request right now.\n\n"
+                + "Please check that the Flask server is running "
+                + "and try again.",
+
+            confidence:
+                "Unavailable",
+
+            sources: [],
+
+            escalated: false,
+
+            ticket_id: null
+
+        });
 
     } finally {
 
-        button.disabled = false;
+        sendButton.disabled = false;
 
-        button.innerHTML = `
-            Analyze with NODEFIX
-            <span>→</span>
+        sendButton.innerHTML =
+            'Diagnose issue <span>→</span>';
+
+
+        messageInput.value = "";
+
+        hideImagePreview();
+
+        messageInput.focus();
+
+    }
+
+}
+
+
+// =========================================================
+// ADD USER MESSAGE
+// =========================================================
+
+function addUserMessage(
+    message,
+    equipment
+) {
+
+    const wrapper =
+        document.createElement("div");
+
+
+    wrapper.className =
+        "live-message user-live-message";
+
+
+    wrapper.innerHTML = `
+
+        <div class="live-content user-content">
+
+            <div class="live-name">
+                YOU · ${escapeHtml(equipment)}
+            </div>
+
+            <div class="live-bubble user-bubble">
+
+                ${escapeHtml(message)}
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    chatMessages.appendChild(wrapper);
+
+    scrollChat();
+
+}
+
+
+// =========================================================
+// ADD LOADING MESSAGE
+// =========================================================
+
+function addLoadingMessage() {
+
+    const wrapper =
+        document.createElement("div");
+
+
+    wrapper.className =
+        "live-message";
+
+
+    wrapper.innerHTML = `
+
+        <div class="live-avatar">
+            N
+        </div>
+
+        <div class="live-content">
+
+            <div class="live-name">
+                NODEFIX
+            </div>
+
+            <div class="live-bubble">
+
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+
+                <span style="margin-left:7px;">
+                    Checking the problem...
+                </span>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    chatMessages.appendChild(wrapper);
+
+    scrollChat();
+
+
+    return wrapper;
+
+}
+
+
+// =========================================================
+// ADD AI RESPONSE
+// =========================================================
+
+function addAssistantMessage(data) {
+
+    const wrapper =
+        document.createElement("div");
+
+
+    wrapper.className =
+        "live-message";
+
+
+    const formattedAnswer =
+        escapeHtml(data.answer)
+            .replaceAll(
+                "\n",
+                "<br>"
+            );
+
+
+    const sourceHTML =
+        data.sources &&
+        data.sources.length
+
+            ? data.sources
+                .map(
+                    source =>
+                        `
+                        <span class="meta-pill source-pill">
+                            ${escapeHtml(source)}
+                        </span>
+                        `
+                )
+                .join("")
+
+            : "";
+
+
+    let escalationHTML =
+        "";
+
+
+    if (data.escalated) {
+
+        escalationHTML = `
+
+            <div class="ticket-card">
+
+                <div class="ticket-icon">
+                    ✓
+                </div>
+
+                <div class="ticket-content">
+
+                    <strong>
+                        TECHNICIAN TICKET CREATED
+                    </strong>
+
+                    <span>
+                        ${data.ticket_id
+                            ? `Ticket #${escapeHtml(data.ticket_id)}`
+                            : "Ticket created"}
+                    </span>
+
+                    <small>
+                        ${data.escalation_reason
+                            ? escapeHtml(data.escalation_reason)
+                            : "Human assistance required"}
+                    </small>
+
+                </div>
+
+                <div class="ticket-priority">
+                    HUMAN REVIEW
+                </div>
+
+            </div>
+
         `;
 
     }
 
-});
+
+    wrapper.innerHTML = `
+
+        <div class="live-avatar">
+            N
+        </div>
+
+
+        <div class="live-content">
+
+            <div class="live-name">
+                NODEFIX AI
+            </div>
+
+
+            <div class="live-bubble">
+
+                ${formattedAnswer}
+
+            </div>
+
+
+            <div class="result-meta">
+
+                <span class="meta-pill">
+
+                    CONFIDENCE:
+                    ${escapeHtml(
+                        data.confidence || "N/A"
+                    )}
+
+                </span>
+
+                ${sourceHTML}
+
+            </div>
+
+
+            ${escalationHTML}
+
+        </div>
+
+    `;
+
+
+    chatMessages.appendChild(wrapper);
+
+    scrollChat();
+
+}
+
+
+// =========================================================
+// SCROLL CHAT
+// =========================================================
+
+function scrollChat() {
+
+    chatMessages.scrollTo({
+
+        top:
+            chatMessages.scrollHeight,
+
+        behavior:
+            "smooth"
+
+    });
+
+}
+
+
+// =========================================================
+// ESCAPE HTML
+// =========================================================
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
